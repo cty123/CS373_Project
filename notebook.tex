@@ -321,18 +321,17 @@ Shikang Fan(fan165@purdue.edu), Ruoyu Song( song464@purdue.edu)
             
     \subsection{2 Data Interpretation}\label{data-interpretation}
 
-To predict to house price for the city of Melbourne, we select 5
+To predict to house price for the city of Melbourne, we select 4
 features out of original 13 features. In Part 1.1, we also filter out
 the data entries that are missing values. In the process of filtering,
 we dropped the features that clearly has no influence over the market
-price, like seller's name.
+price, like seller's name, and those that we consider to have very
+minimal impact like the rooms layout, number of bedrooms and bathrooms.
 
 Eventually, we select 5 features that we believe could be used to
 predict the relatively accurate price. The features are, 1. Distance to
-downtown CBD(Distance) 2. The date of the transaction(house being sold)
-displayed in number of days before Oct.1 2018(Date) 3. Number of parking
-lots(Car) 4. Building area(BuildingArea) 5. The year that the house was
-built(YearBuilt).
+downtown CBD(Distance) 2. Number of parking lots(Car) 3. Building
+area(BuildingArea) 4. The year that the house was built(YearBuilt).
 
     \subsection{3. Analyze the data}\label{analyze-the-data}
 
@@ -345,20 +344,13 @@ show why linear regression is useful in this case
          \PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{markers} \PY{k}{as} \PY{n+nn}{mk}
          \PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
          \PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
-         
-         \PY{c+c1}{\PYZsh{} def get\PYZus{}data\PYZus{}points():}
-         \PY{c+c1}{\PYZsh{}     df = pd.read\PYZus{}csv(\PYZdq{}clean\PYZus{}data.csv\PYZdq{}, sep=\PYZsq{}\PYZbs{}t\PYZsq{})}
-         \PY{c+c1}{\PYZsh{}     df = df.dropna(how=\PYZsq{}any\PYZsq{}, axis=0)}
-         \PY{c+c1}{\PYZsh{}     x\PYZus{}points = df[[\PYZsq{}Distance\PYZsq{}, \PYZsq{}Date\PYZsq{}, \PYZsq{}Car\PYZsq{},\PYZsq{}BuildingArea\PYZsq{}, \PYZsq{}YearBuilt\PYZsq{}]]}
-         \PY{c+c1}{\PYZsh{}     y\PYZus{}points = df[[\PYZsq{}Price\PYZsq{}]]}
-         \PY{c+c1}{\PYZsh{}     return np.array(x\PYZus{}points), np.array(y\PYZus{}points)}
-         
-         \PY{c+c1}{\PYZsh{} x, y = get\PYZus{}data\PYZus{}points()}
+         \PY{c+c1}{\PYZsh{} Read data}
          \PY{n}{df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{clean\PYZus{}data.csv}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{sep}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+se}{\PYZbs{}t}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
          
          \PY{c+c1}{\PYZsh{} Plot yearbuilt versus price}
          \PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{YearBuilt}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Price}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{red}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{.}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
          \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{YearBuilt versus Price}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{c+c1}{\PYZsh{} Don\PYZsq{}t show the outliers}
          \PY{n}{plt}\PY{o}{.}\PY{n}{xlim}\PY{p}{(}\PY{p}{(}\PY{l+m+mi}{1900}\PY{p}{,} \PY{l+m+mi}{2018}\PY{p}{)}\PY{p}{)}
          \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{YearBuilt}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{14}\PY{p}{)}
          \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Prices}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{14}\PY{p}{)}
@@ -368,6 +360,7 @@ show why linear regression is useful in this case
          \PY{c+c1}{\PYZsh{} Plot buildingarea versus price}
          \PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{BuildingArea}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Price}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{red}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{.}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
          \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{BuildingArea versus Price}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{c+c1}{\PYZsh{} Zoom in}
          \PY{n}{plt}\PY{o}{.}\PY{n}{xlim}\PY{p}{(}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1000}\PY{p}{)}\PY{p}{)}
          \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{BuildingArea}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{14}\PY{p}{)}
          \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Prices}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{14}\PY{p}{)}
@@ -473,9 +466,15 @@ would add marginal value to the value of the property.
     \subsection{4.2 Training with ridge linear
 regression}\label{training-with-ridge-linear-regression}
 
+    In this section we will perform ridge linear regression and lasso linear
+regression without cross validation just to see the best scenario that
+is, the maximum accuracy we can possibly achieve. We will perform cross
+validation in the next section
+
     \begin{Verbatim}[commandchars=\\\{\}]
 {\color{incolor}In [{\color{incolor}38}]:} \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{linear\PYZus{}model} \PY{k}{import} \PY{n}{Ridge}
          
+         \PY{c+c1}{\PYZsh{} Obtain training data}
          \PY{n}{x}\PY{p}{,} \PY{n}{y} \PY{o}{=} \PY{n}{get\PYZus{}data\PYZus{}points}\PY{p}{(}\PY{p}{)}
          \PY{n}{x\PYZus{}train} \PY{o}{=} \PY{n}{x}
          \PY{n}{y\PYZus{}train} \PY{o}{=} \PY{n}{y}
