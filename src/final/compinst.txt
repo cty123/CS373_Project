@@ -1,0 +1,11 @@
+1. All codes are written in python, therefore there's no need for compilation. 
+However, before running the python codes, make sure you have the following libraries installed
+    * numpy
+    * pandas
+    * matplotlib
+    * sklearn
+
+2. Datasets folder contains the original data AND the processed data with our selected features only, the 
+source code will use the dataset inside /source directory to execute(rather than using the dataset in /dataset directory)
+
+3. Checkout manual.txt

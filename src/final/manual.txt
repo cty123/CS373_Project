@@ -1,0 +1,26 @@
+1. All codes are written in python, therefore there's no need for compilation. 
+However, before running the python codes, make sure you have the following libraries installed
+    * numpy
+    * pandas
+    * matplotlib
+    * sklearn
+    * scipy
+    
+2. Datasets folder contains the original data AND the processed data with our selected features only, the 
+source code will use the dataset inside /sources directory to execute(rather than using the dataset in /dataset directory)
+
+3. To run our code, use the terminal, navigate to /sources directory. Make sure you performed Step 1. 
+Run command:
+
+python3 P1_Load_Data.py 
+python3 P3_Analyzing_Data.py
+python3 P4_Training
+python3 P5_Cross_Validation
+python3 P6_Hyperparameter_tuning
+python3 P7_Discussion
+
+These commands will lead you to perform the step by step execution exactly like our report document. 
+
+# NOTE: Because we randomly shuffle the whole dataset before performing linear regression, the result you have for 
+cross validation and hyperparameter tuning could be different than our results in the report document. 
+
